@@ -9,8 +9,8 @@
 
 - name: Install configuration file
   ansible.builtin.template:
-    src: rrdcached.conf.j2
-    dest: /etc/default/rrdcached.conf
+    src: etc/default/rrdcached.j2
+    dest: /etc/default/rrdcached
     owner: root
     group: root
     mode: '0644'
