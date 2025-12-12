@@ -1,3 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# handlers file for rrdcached
+- name: Restart RRDCacheD
+  ansible.builtin.systemd:
+    name: rrdcached
+    enabled: yes
+    state: restarted

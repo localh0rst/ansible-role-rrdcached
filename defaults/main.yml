@@ -4,4 +4,19 @@ rrdcached_packages:
   - rrdcached
   - rrdtool
 
+rrdcached_config_file: "/etc/default/rrdcached"
 
+rrdcached_base_options: "-B"
+rrdcached_base_path: "/var/lib/rrdcached"
+rrdcached_daemon_user: "_rrdcached"
+rrdcached_daemon_group: "_rrdcached"
+rrdcached_journal_path: "/var/lib/rrdcached/journal/"
+rrdcached_socket_file: "/var/run/rrdcached.sock"
+rrdcached_socket_mode: "0660"
+rrdcached_socket_group: "root"
+rrdcached_pid_file: "/var/run/rrdcached.pid"
+rrdcached_write_timeout: 300
+rrdcached_write_jitter: 0
+rrdcached_write_threads: 4
+rrdcached_network_listen_addresses: []
+rrdcached_network_listen_on_all_interfaces: false

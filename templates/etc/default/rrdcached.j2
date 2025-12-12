@@ -1,57 +1,20 @@
-# /etc/default file for RRD cache daemon
-
 # Full path to daemon
 DAEMON=/usr/bin/rrdcached
-
-# Optional override flush interval, in seconds.
-#WRITE_TIMEOUT=300
-
-# Optional override maximum write delay, in seconds.
-#WRITE_JITTER=0
-
-# Optional override number of write_threads
-#WRITE_THREADS=4
-
-# Where database files are placed.  If left unset, the default /tmp will
-# be used.  NB: The daemon will reject a directory that has symlinks as
-# components.  NB: You may want to have -B in BASE_OPTS.
-BASE_PATH=/var/lib/rrdcached/db/
-
-# Where journal files are placed.  If left unset, journaling will
-# be disabled.
-JOURNAL_PATH=/var/lib/rrdcached/journal/
-
-# FHS standard placement for process ID file.
-PIDFILE=/var/run/rrdcached.pid
-
-# FHS standard placement for local control socket.
-SOCKFILE=/var/run/rrdcached.sock
-
-# Optional override group that should own/access the local control
-# socket
-#SOCKGROUP=root
-
-# Optional override access mode of local control socket.
-#SOCKMODE=0660
-
-# Optional unprivileged group to run under when daemon.  If unset
-# retains invocation group privileges.
-#DAEMON_GROUP=_rrdcached
-
-# Optional unprivileged user to run under when daemon.  If unset
-# retains invocation user privileges.
-#DAEMON_USER=_rrdcached
-
-# Network socket address requests.  Use in conjunction with SOCKFILE to
-# also listen on INET domain sockets.  The option is a lower-case ell
-# ASCII 108 = 0x6c, and should be repeated for each address.  The
-# parameter is an optional IP address, followed by an optional port with
-# a colon separating it from the address.  The empty string is
-# interpreted as "open sockets on the default port on all available
-# interfaces", but generally does not pass through init script functions
-# so use -L with no parameters for that configuration.
+BASE_OPTIONS="{{ rrdcached_base_options }}"
+BASE_PATH={{ rrdcached_base_path }}
+DAEMON_GROUP={{ rrdcached_daemon_group }}
+DAEMON_USER{{ rrdcached_daemon_user }}
+JOURNAL_PATH={{ rrdcached_journal_path }}
+SOCKFILE={{ rrdcached_socket_file }}
+SOCKMODE={{ rrdcached_socket_mode }}
+SOCKGROUP={{ rrdcached_socket_group }}
+PIDFILE={{ rrdcached_pid_file }}
+WRITE_TIMEOUT={{ rrdcached_write_timeout }}
+WRITE_JITTER={{ rrdcached_write_jitter }}
+WRITE_THREADS={{ rrdcached_write_threads }}
 #NETWORK_OPTIONS="-L"
-
-# Any other options not specifically supported by the script (-P, -f,
-# -F, -B).
-BASE_OPTIONS="-B"
+{% if rrdcached_network_listen_on_all_interfaces %}
+NETWORK_OPTIONS="-L"
+{% elif rrdcached_network_listen_addresses %}
+NETWORK_OPTIONS="{% for addr in rrdcached_network_listen_addresses %}-l {{ addr }} {% endfor %}"
+{% endif %}

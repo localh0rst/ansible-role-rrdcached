@@ -1,3 +1,17 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# tasks file for rrdcached
+- name: Install RRDCacheD packages
+  ansible.builtin.apt:
+    name: "{{ rrdcached_packages }}"
+    state: present
+    update_cache: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install configuration file
+  ansible.builtin.template:
+    src: rrdcached.conf.j2
+    dest: /etc/default/rrdcached.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart RRDCacheD
