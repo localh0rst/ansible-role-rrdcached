@@ -3,7 +3,7 @@ DAEMON=/usr/bin/rrdcached
 BASE_OPTIONS="{{ rrdcached_base_options }}"
 BASE_PATH={{ rrdcached_base_path }}
 DAEMON_GROUP={{ rrdcached_daemon_group }}
-DAEMON_USER{{ rrdcached_daemon_user }}
+DAEMON_USER={{ rrdcached_daemon_user }}
 JOURNAL_PATH={{ rrdcached_journal_path }}
 SOCKFILE={{ rrdcached_socket_file }}
 SOCKMODE={{ rrdcached_socket_mode }}
